@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import helmet from 'helmet';
 import connectDB from './dbConnect.js';
 import cors from 'cors';
+import router from './routes/index.js';
 
 const app = express();
 const PORT = process.env.PORT || 3030;
@@ -18,6 +19,9 @@ app.use(morgan('dev'));
 app.use(bodyParser.json({ limit: '30mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(cors());
+
+//Router
+app.use('/api', router);
 
 //DB
 connectDB();
