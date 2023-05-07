@@ -1,0 +1,44 @@
+.register {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, #323232 0%, #3f3f3f 40%, #1c1c1c 150%),
+    linear-gradient(to top, #272727 rgba(255, 255, 255, 0.4) 0%);
+  background-blend-mode: multiply;
+}
+
+.lottie {
+  height: 700px;
+}
+
+.register input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #6eeb83;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+}
+
+.register input:focus {
+  outline: none !important;
+  box-shadow: none;
+  border-bottom: 1px solid #6eeb83;
+}
+
+.register input:hover {
+  outline: white !important;
+  box-shadow: none;
+  border-bottom: 1px solid #6eeb83;
+}
+
+.register label {
+  color: white !important;
+  font-family: 'Poppins' !important;
+}
+
+.register h1 {
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 1.5em;
+}
