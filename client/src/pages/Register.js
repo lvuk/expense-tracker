@@ -1,11 +1,14 @@
 import { Form, Input, message } from 'antd';
 import { Link } from 'react-router-dom';
 import '../resources/auth.css';
-import validator from 'validator';
+
 import { register } from '../api/auth.js';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import Loading from '../components/Loading';
 
 const Register = () => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const onSubmit = async (values) => {
     const { name, email, password } = values;
@@ -16,23 +19,26 @@ const Register = () => {
     // }
 
     try {
+      setLoading(true);
       const response = await register(name, email, password);
       console.log(response);
       if (response.error) {
+        setLoading(false);
         message.error(response.error);
       } else {
-        message.success('Registered successfully! Please wait...', 0.6);
-        setTimeout(() => {
-          navigate('/login');
-        }, 2000);
+        setLoading(false);
+        message.success('Registered successfully! Please wait...', 0.7);
+        navigate('/login');
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
   return (
     <div className='register'>
+      {loading && <Loading />}
       <div className='row justify-content-center align-items-center w-100 h-100'>
         <div className='col-md-5'>
           <div className='lottie'>

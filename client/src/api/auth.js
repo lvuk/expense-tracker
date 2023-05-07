@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { message } from 'antd';
-import { useNavigate } from 'react-router-dom';
 
 export const register = async (name, email, password) => {
   try {
@@ -45,4 +44,9 @@ export const login = async (email, password) => {
     // console.log(error);
     return error.response.data;
   }
+};
+
+export const logout = () => {
+  localStorage.removeItem('user');
+  localStorage.removeItem('token');
 };

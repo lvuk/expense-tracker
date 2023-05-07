@@ -3,9 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../resources/auth.css';
 import validator from 'validator';
 import { login } from '../api/auth';
+import { useEffect, useState } from 'react';
+import Loading from '../components/Loading';
+import { authenticatedUser } from '../utils/authenticatedUser';
 
 const Login = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (values) => {
     const { email, password } = values;
@@ -16,22 +20,33 @@ const Login = () => {
     }
 
     try {
+      setLoading(true);
       const response = await login(email, password);
       if (response.error) {
+        setLoading(false);
         message.error(response.error);
       } else {
+        setLoading(false);
         message.success('Logged in successfully! Please wait...', 0.6);
         setTimeout(() => {
           navigate('/');
         }, 1000);
       }
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
 
+  useEffect(() => {
+    if (authenticatedUser().user) {
+      navigate('/');
+    }
+  });
+
   return (
     <div className='register'>
+      {loading && <Loading />}
       <div className='row justify-content-center align-items-center w-100 h-100'>
         <div className='col-md-5'>
           <Form layout='vertical' onFinish={onSubmit}>
