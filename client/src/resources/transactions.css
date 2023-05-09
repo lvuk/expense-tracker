@@ -1,0 +1,38 @@
+:root {
+  --background-color: #272727;
+  --text-color: #ffffff;
+  --primary-color: #6eeb83;
+}
+
+.filter {
+  box-shadow: 0 0 3px gray;
+  padding: 1em 1.5em;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.transaction-form input:focus,
+.transaction-form input:hover,
+.ant-select-selector:focus,
+.ant-select-selector:hover {
+  border: 1px solid var(--primary-color) !important;
+}
+
+.transaction-form input,
+.ant-select-selector,
+.ant-select-selection-item::after {
+  background-color: var(--background-color) !important;
+  color: white !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.transaction-form label {
+  color: var(--text-color) !important;
+  font-family: 'Poppins', sans-serif;
+}
+
+.ant-modal-content,
+.ant-modal-title {
+  background-color: #272727 !important;
+  color: var(--text-color) !important;
+  font-family: 'Poppins', sans-serif !important;
+}

@@ -38,14 +38,14 @@ const DefaultLayout = (props) => {
             }}
             trigger={['click']}
           >
-            <h3 onClick={(e) => e.preventDefault()}>
+            <h1 onClick={(e) => e.preventDefault()} className='username'>
               <Space />
-              <h3 className='username'>{user.name}</h3>
-            </h3>
+              {user.name}
+            </h1>
           </Dropdown>
         </div>
       </header>
-      <div className='content d-flex justify-content-center align-items-center'>
+      <div className='content' style={{ border: '1px solid white' }}>
         {props.children}
       </div>
     </div>

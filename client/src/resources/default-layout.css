@@ -15,13 +15,18 @@ header {
   color: var(--text-color);
   padding: 1.5em 5em;
   height: 10vh;
+  border-bottom: 1px solid gray;
 }
 
 .logo {
   color: var(--primary-color);
   opacity: 0.8;
-  font-size: 2em;
+  font-size: 1.5em;
   cursor: pointer;
+}
+
+.username {
+  font-size: 1.5em;
 }
 
 .username:hover {
@@ -30,8 +35,10 @@ header {
 
 .content {
   height: 90vh;
-  box-shadow: 0 0 5px gray;
+  width: 100%;
+  width: 70%;
   color: var(--text-color);
+  margin: 0 auto;
 }
 
 .spinner {
