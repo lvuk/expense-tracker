@@ -36,3 +36,16 @@
   color: var(--text-color) !important;
   font-family: 'Poppins', sans-serif !important;
 }
+
+.ant-modal-title {
+  font-size: 1.7em !important;
+}
+
+.ant-modal-close-icon {
+  color: white;
+}
+
+.ant-modal-close-icon:hover {
+  color: white;
+  opacity: 0.6;
+}

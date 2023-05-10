@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import { logout } from '../api/auth';
 import '../resources/default-layout.css';
 import { authenticatedUser } from '../utils/authenticatedUser';
-import { DownOutlined } from '@ant-design/icons';
 import { Dropdown, Space } from 'antd';
 
 const DefaultLayout = (props) => {
