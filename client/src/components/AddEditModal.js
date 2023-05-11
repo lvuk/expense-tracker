@@ -7,13 +7,13 @@ import { authenticatedUser } from '../utils/authenticatedUser';
 const AddEditModal = ({
   showAddEditTransactionModal,
   setShowAddEditTransactionModal,
+  onNewTransactionAdded,
 }) => {
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (values) => {
     try {
       const user = JSON.parse(authenticatedUser().user);
-      console.log(user);
       setLoading(true);
       const response = await addNewTransaction({ ...values, userId: user._id });
       if (response.error) {
@@ -21,6 +21,7 @@ const AddEditModal = ({
         message.error(response.error);
         setShowAddEditTransactionModal(false);
       } else {
+        onNewTransactionAdded();
         setLoading(false);
         message.success('Transaction added successfully!');
         setShowAddEditTransactionModal(false);

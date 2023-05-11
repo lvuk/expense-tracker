@@ -4,7 +4,7 @@ import { add, getAll } from '../controllers/transactionController.js';
 const transactionRouter = express.Router();
 
 transactionRouter.post('/add', add);
-transactionRouter.get('/', getAll);
+transactionRouter.get('/:userId', getAll);
 //TO DO: delete transaction
 // transactionRouter.delete('/remove');
 //TO DO: edit transaction

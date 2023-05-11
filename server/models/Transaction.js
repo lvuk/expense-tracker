@@ -7,7 +7,7 @@ const TransactionSchema = new mongoose.Schema({
   category: { type: String, required: true },
   reference: { type: String, required: true },
   description: { type: String },
-  date: { type: String, required: true },
+  date: { type: Date, required: true },
 });
 
 const Transaction = mongoose.model('Transaction', TransactionSchema);
