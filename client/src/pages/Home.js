@@ -2,19 +2,30 @@ import DefaultLayout from '../components/DefaultLayout';
 import '../resources/transactions.css';
 import { useEffect, useState } from 'react';
 import AddEditModal from '../components/AddEditModal';
-import { getUserTransactions } from '../api/transaction';
-import { Table, message } from 'antd';
+import { deleteTransaction, getUserTransactions } from '../api/transaction';
+import { Select, DatePicker, Table, message } from 'antd';
 import Loading from '../components/Loading';
+import moment from 'moment';
+import { EditSOutline, DeleteOutline } from 'antd-mobile-icons';
 
 const Home = () => {
   const [showAddEditTransactionModal, setShowAddEditTransactionModal] =
     useState(false);
   const [loading, setLoading] = useState(false);
   const [transactionsData, setTransactionsData] = useState([]);
+  const [frequency, setFrequency] = useState('7');
+  const { RangePicker } = DatePicker;
+  const [selectedRange, setSelectedRange] = useState([]);
+  const [type, setType] = useState('all');
+  const [selectedItemForEdit, setSelectedItemForEdit] = useState(null);
 
   const fetchData = async () => {
     try {
-      const response = await getUserTransactions();
+      const response = await getUserTransactions(
+        frequency,
+        selectedRange,
+        type
+      );
       if (response.error) {
         setLoading(false);
         message.error(response.error);
@@ -36,30 +47,62 @@ const Home = () => {
     await fetchData();
   };
 
+  const handleDelete = async (record) => {
+    try {
+      await deleteTransaction(record._id);
+      message.success('Transaction Deleted Successfully');
+      fetchData();
+    } catch (error) {
+      message.error('Something Went Wrong!');
+    }
+  };
+
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [frequency, selectedRange, type]);
 
   const columns = [
     {
       title: 'Date',
       dataIndex: 'date',
-      key: '_id',
+      render: (date) => <label>{moment(date).format('DD.MM.YYYY')}</label>,
     },
     {
       title: 'Amount',
       dataIndex: 'amount',
-      key: '_id',
     },
     {
       title: 'Category',
       dataIndex: 'category',
-      key: '_id',
+    },
+    {
+      title: 'Type',
+      dataIndex: 'type',
     },
     {
       title: 'Reference',
       dataIndex: 'reference',
-      key: '_id',
+    },
+    {
+      title: 'Action',
+      dataIndex: 'actions',
+      render: (text, record) => {
+        return (
+          <div className='d-flex'>
+            <EditSOutline
+              className='edit-icon'
+              onClick={() => {
+                setSelectedItemForEdit(record);
+                setShowAddEditTransactionModal(true);
+              }}
+            />
+            <DeleteOutline
+              className='ms-3 delete-icon'
+              onClick={() => handleDelete(record)}
+            />
+          </div>
+        );
+      },
     },
   ];
 
@@ -67,10 +110,36 @@ const Home = () => {
     <DefaultLayout>
       {loading && <Loading />}
       <div className='filter d-flex justify-content-between align-items-center'>
-        <div></div>
+        <div className='d-flex'>
+          <div className='d-flex flex-column'>
+            <p>Select Frequency</p>
+            <Select value={frequency} onChange={(value) => setFrequency(value)}>
+              <Select.Option value='7'>Last 7 Days</Select.Option>
+              <Select.Option value='30'>Last 30 Days</Select.Option>
+              <Select.Option value='365'>Last Year</Select.Option>
+              <Select.Option value='custom'>Custom</Select.Option>
+            </Select>
+            {frequency === 'custom' && (
+              <div className='mt-2'>
+                <RangePicker
+                  value={selectedRange}
+                  onChange={(values) => setSelectedRange(values)}
+                />
+              </div>
+            )}
+          </div>
+          <div className='d-flex flex-column ms-4'>
+            <p>Select Type</p>
+            <Select value={type} onChange={(type) => setType(type)}>
+              <Select.Option value='income'>Income</Select.Option>
+              <Select.Option value='expense'>Expense</Select.Option>
+              <Select.Option value='all'>All</Select.Option>
+            </Select>
+          </div>
+        </div>
         <div>
           <button
-            className='btn'
+            className='btn add-btn'
             onClick={() => setShowAddEditTransactionModal(true)}
           >
             Add
@@ -79,7 +148,11 @@ const Home = () => {
       </div>
       <div className='table-analitics'>
         <div className='table'>
-          <Table columns={columns} dataSource={transactionsData} />
+          <Table
+            columns={columns}
+            dataSource={transactionsData}
+            scroll={{ x: true }}
+          />
         </div>
       </div>
       {showAddEditTransactionModal && (
@@ -87,6 +160,8 @@ const Home = () => {
           showAddEditTransactionModal={showAddEditTransactionModal}
           setShowAddEditTransactionModal={setShowAddEditTransactionModal}
           onNewTransactionAdded={handleNewTransactionAdded}
+          selectedItemForEdit={selectedItemForEdit}
+          setSelectedItemForEdit={setSelectedItemForEdit}
         />
       )}
     </DefaultLayout>

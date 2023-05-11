@@ -47,3 +47,39 @@ header {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+@media screen and (max-width: 1200px) {
+  .content {
+    width: 85%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .content {
+    width: 95%;
+  }
+
+  header {
+    padding: 1.5em 1.5em;
+  }
+
+  .ant-modal-content {
+    margin-top: 0;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .filter {
+    flex-direction: column;
+  }
+
+  .add-btn {
+    margin-top: 1em;
+  }
+}
+
+@media screen and (max-height: 668px) {
+  .ant-modal-content {
+    margin-top: -80px !important;
+  }
+}

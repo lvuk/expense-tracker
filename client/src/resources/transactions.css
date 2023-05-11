@@ -59,7 +59,6 @@
 
 .ant-table-cell-row-hover {
   background-color: var(--background-color) !important;
-  color: var(--primary-color) !important;
   font-family: 'Poppins', sans-serif !important;
 }
 
@@ -80,4 +79,36 @@
 .ant-empty-description {
   font-family: 'Poppins', sans-serif !important;
   color: white !important;
+}
+
+.ant-select-selection-item {
+  color: white !important;
+}
+
+.ant-select-arrow {
+  color: white !important;
+}
+
+.edit-icon,
+.delete-icon {
+  font-size: 1.3em;
+}
+
+.edit-icon:hover {
+  color: var(--primary-color) !important;
+  cursor: pointer;
+}
+
+.delete-icon:hover {
+  color: red !important;
+  cursor: pointer;
+}
+
+.ant-message-notice-content {
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
+  font-family: 'Poppins', sans-serif !important;
+  -webkit-box-shadow: 0px 0px 160px 30px rgba(110, 235, 131, 0.6) !important;
+  -moz-box-shadow: 0px 0px 160px 30px rgba(110, 235, 131, 0.6) !important;
+  box-shadow: 0px 0px 160px 30px rgba(110, 235, 131, 0.6) !important;
 }

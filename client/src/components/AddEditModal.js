@@ -1,13 +1,15 @@
 import { Modal, Form, Select, Input, message } from 'antd';
 import { useState } from 'react';
 import Loading from './Loading';
-import { addNewTransaction } from '../api/transaction';
+import { addNewTransaction, editTransaction } from '../api/transaction';
 import { authenticatedUser } from '../utils/authenticatedUser';
 
 const AddEditModal = ({
   showAddEditTransactionModal,
   setShowAddEditTransactionModal,
   onNewTransactionAdded,
+  selectedItemForEdit,
+  setSelectedItemForEdit,
 }) => {
   const [loading, setLoading] = useState(false);
 
@@ -15,16 +17,39 @@ const AddEditModal = ({
     try {
       const user = JSON.parse(authenticatedUser().user);
       setLoading(true);
-      const response = await addNewTransaction({ ...values, userId: user._id });
-      if (response.error) {
-        setLoading(false);
-        message.error(response.error);
-        setShowAddEditTransactionModal(false);
+      if (!selectedItemForEdit) {
+        const response = await addNewTransaction({
+          ...values,
+          userId: user._id,
+        });
+        if (response.error) {
+          setLoading(false);
+          message.error(response.error);
+          setShowAddEditTransactionModal(false);
+        } else {
+          onNewTransactionAdded();
+          setLoading(false);
+          message.success('Transaction Added Successfully!');
+          setShowAddEditTransactionModal(false);
+          setSelectedItemForEdit(null);
+        }
       } else {
-        onNewTransactionAdded();
-        setLoading(false);
-        message.success('Transaction added successfully!');
-        setShowAddEditTransactionModal(false);
+        const response = await editTransaction({
+          ...values,
+          userId: user._id,
+          transactionId: selectedItemForEdit._id,
+        });
+        if (response.error) {
+          setLoading(false);
+          message.error(response.error);
+          setShowAddEditTransactionModal(false);
+        } else {
+          onNewTransactionAdded();
+          setLoading(false);
+          message.success('Transaction Updated Successfully!');
+          setShowAddEditTransactionModal(false);
+          setSelectedItemForEdit(null);
+        }
       }
     } catch (error) {
       setLoading(false);
@@ -34,14 +59,19 @@ const AddEditModal = ({
 
   return (
     <Modal
-      title='Add Expense'
+      title={selectedItemForEdit ? 'Edit Transaction' : 'Add Transaction'}
       open={showAddEditTransactionModal}
       onCancel={() => setShowAddEditTransactionModal(false)}
       footer={false}
     >
       {loading && <Loading />}
 
-      <Form layout='vertical' className='transaction-form' onFinish={onSubmit}>
+      <Form
+        layout='vertical'
+        className='transaction-form'
+        onFinish={onSubmit}
+        initialValues={selectedItemForEdit}
+      >
         <Form.Item label='Amount' name='amount'>
           <Input type='text' />
         </Form.Item>
