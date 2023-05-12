@@ -1,23 +1,14 @@
 import axios from 'axios';
 import { authenticatedUser } from '../utils/authenticatedUser';
 
-export const getAllTransactions = async () => {
-  try {
-    const response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/transaction/`
-    );
-
-    return response.data;
-  } catch (error) {
-    return error.response.data;
-  }
-};
-
 export const addNewTransaction = async (values) => {
   try {
+    const token = authenticatedUser().token;
+
     const response = await axios.post(
       `${process.env.REACT_APP_API_URL}/transaction/add`,
-      { ...values }
+      { ...values },
+      { headers: { Authorization: token } }
     );
 
     return response.data;
@@ -28,9 +19,12 @@ export const addNewTransaction = async (values) => {
 
 export const editTransaction = async (values) => {
   try {
+    const token = authenticatedUser().token;
+
     const response = await axios.patch(
       `${process.env.REACT_APP_API_URL}/transaction/${values.transactionId}`,
-      { ...values }
+      { ...values },
+      { headers: { Authorization: token } }
     );
 
     return response.data;
@@ -41,8 +35,11 @@ export const editTransaction = async (values) => {
 
 export const deleteTransaction = async (transactionId) => {
   try {
+    const token = authenticatedUser().token;
+
     const response = await axios.delete(
-      `${process.env.REACT_APP_API_URL}/transaction/${transactionId}`
+      `${process.env.REACT_APP_API_URL}/transaction/${transactionId}`,
+      { headers: { Authorization: token } }
     );
 
     return response.data;
@@ -53,6 +50,7 @@ export const deleteTransaction = async (transactionId) => {
 
 export const getUserTransactions = async (frequency, selectedRange, type) => {
   try {
+    const token = authenticatedUser().token;
     const userId = JSON.parse(authenticatedUser().user)._id;
 
     if (frequency === 'custom' && selectedRange === null) return;
@@ -62,7 +60,8 @@ export const getUserTransactions = async (frequency, selectedRange, type) => {
       {
         ...(frequency === 'custom' && { selectedRange }),
         type,
-      }
+      },
+      { headers: { Authorization: token } }
     );
 
     return response.data;

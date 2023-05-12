@@ -21,9 +21,9 @@ export const add = async (req, res) => {
     }
 
     const transaction = await newTransaction.save();
-    res.status(201).json({ transaction });
+    return res.status(201).json({ transaction });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -49,9 +49,10 @@ export const getAll = async (req, res) => {
       userId,
       ...(type !== 'all' && { type }),
     });
-    res.status(200).json({ transactions });
+    return res.status(200).json({ transactions });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.log(error);
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -64,9 +65,9 @@ export const editTransaction = async (req, res) => {
       req.body
     );
 
-    res.status(201).json({ transaction });
+    return res.status(201).json({ transaction });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -78,8 +79,8 @@ export const deleteTransaction = async (req, res) => {
       _id: transactionId,
     });
 
-    res.status(202).json({ transaction });
+    return res.status(202).json({ transaction });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 };

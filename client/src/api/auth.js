@@ -34,7 +34,7 @@ export const login = async (email, password) => {
     } else {
       localStorage.clear();
       localStorage.setItem('user', JSON.stringify(user));
-      localStorage.setItem('token', `Bearer ${JSON.stringify(token)}`);
+      localStorage.setItem('token', `Bearer ${token}`);
     }
 
     // console.log(response.data);

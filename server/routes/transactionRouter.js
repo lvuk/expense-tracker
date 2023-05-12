@@ -5,13 +5,14 @@ import {
   editTransaction,
   deleteTransaction,
 } from '../controllers/transactionController.js';
+import { verifyToken } from '../middlewares/authMiddleware.js';
 
 const transactionRouter = express.Router();
 
-transactionRouter.post('/add', add);
-transactionRouter.post('/:userId', getAll);
-transactionRouter.patch('/:transactionId', editTransaction);
-transactionRouter.delete('/:transactionId', deleteTransaction);
+transactionRouter.post('/add', verifyToken, add);
+transactionRouter.post('/:userId', verifyToken, getAll);
+transactionRouter.patch('/:transactionId', verifyToken, editTransaction);
+transactionRouter.delete('/:transactionId', verifyToken, deleteTransaction);
 
 //TO DO: delete transaction
 // transactionRouter.delete('/remove');
