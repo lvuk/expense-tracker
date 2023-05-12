@@ -15,6 +15,11 @@ export const add = async (req, res) => {
       date,
       userId,
     });
+
+    if (!amount || !type || !category || !reference || !date) {
+      return res.status(400).json({ error: "Values can't be empty" });
+    }
+
     const transaction = await newTransaction.save();
     res.status(201).json({ transaction });
   } catch (error) {

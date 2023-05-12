@@ -44,14 +44,7 @@ const DefaultLayout = (props) => {
           </Dropdown>
         </div>
       </header>
-      <div
-        className='content'
-        style={{
-          boxShadow: '12px 0 15px -4px gray, -12px 0 8px -4px gray',
-        }}
-      >
-        {props.children}
-      </div>
+      <div className='content'>{props.children}</div>
     </div>
   );
 };

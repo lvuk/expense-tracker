@@ -7,10 +7,20 @@ export const register = async (req, res) => {
     const { name, email, password } = req.body;
 
     const sameUser = await User.findOne({ email });
+
+    //validation
+    if (!name || !email || !password)
+      return res.status(409).json({ error: "Values can't be empty" });
+
     if (sameUser)
       return res
         .status(409)
         .json({ error: 'User with this email already exists' });
+
+    if (password.length < 6)
+      return res
+        .status(409)
+        .json({ error: 'Password must be at least 6 characters long' });
 
     const salt = await bcrypt.genSalt();
     const passwordHashed = await bcrypt.hash(password, salt);
