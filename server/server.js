@@ -21,6 +21,9 @@ app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(cors());
 
 //Router
+app.get('/', (req, res) => {
+  res.json({ message: 'Use docs to see available routes...' });
+});
 app.use('/api', router);
 
 //DB
