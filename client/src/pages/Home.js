@@ -1,6 +1,6 @@
 import DefaultLayout from '../components/DefaultLayout';
 import '../resources/transactions.css';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import AddEditModal from '../components/AddEditModal';
 import { deleteTransaction, getUserTransactions } from '../api/transaction';
 import { Select, DatePicker, Table, message } from 'antd';
@@ -19,7 +19,7 @@ const Home = () => {
   const [type, setType] = useState('all');
   const [selectedItemForEdit, setSelectedItemForEdit] = useState(null);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const response = await getUserTransactions(
         frequency,
@@ -36,7 +36,7 @@ const Home = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [frequency, selectedRange, type]);
 
   const handleNewTransactionAdded = async (newTransaction) => {
     setTransactionsData((prevTransactions) => [
@@ -59,7 +59,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchData();
-  }, [frequency, selectedRange, type]);
+  }, [fetchData]);
 
   const columns = [
     {
