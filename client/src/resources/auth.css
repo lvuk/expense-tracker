@@ -63,10 +63,6 @@
     display: none;
   }
 
-  .register {
-    height: 61vh;
-  }
-
   .register,
   .login {
     margin: 0 2em;
