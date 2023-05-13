@@ -45,7 +45,7 @@ const Login = () => {
   });
 
   return (
-    <div className='register'>
+    <div className='login'>
       {loading && <Loading />}
       <div className='row justify-content-center align-items-center w-100 h-100'>
         <div className='col-md-5'>
